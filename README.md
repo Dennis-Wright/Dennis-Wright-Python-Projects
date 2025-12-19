@@ -1,4 +1,4 @@
-# Dennis-Wright-Python-Projects
+# Dennis Wright's Python Projects
 
 Hello!
 
