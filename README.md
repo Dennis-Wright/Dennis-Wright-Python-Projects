@@ -11,7 +11,7 @@ Feel free to explore the folder structure to see how each project is organized.
 1. [Basic Encrypted Password Login App](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025/Basic%20Encrypted%20Password%20Login%20App)
    A simple login system demonstrating password encryption and modular code using CSV files.
 
-2. [Banking System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025/Banking%20System))  
+2. [Banking System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025/Banking%20System)
    A basic banking application with login, withdraw, deposit, and balance check functionalities. Fully modular and CSV-based.
 
 3. [Library System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025/Library%20System)
