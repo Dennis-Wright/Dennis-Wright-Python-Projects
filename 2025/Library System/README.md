@@ -39,4 +39,4 @@ username,encrypted_password
 
 ## ▶️ How to Run
 ```bash
-python main.py
+python program.py
