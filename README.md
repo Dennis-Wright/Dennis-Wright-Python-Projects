@@ -6,8 +6,12 @@ This repository contains a collection of Python projects I’ve created out of c
 
 Feel free to explore the folder structure to see how each project is organized.  
 
-## Current Projects
+## 2026/Current Projects
 
+1. [File Shredder App]
+   A simple app that shreds files by overwriting them with random data, renaming and then deleting.
+
+## 2025 Projects
 1. [Basic Encrypted Password Login App](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025/Basic%20Encrypted%20Password%20Login%20App)
    A simple login system demonstrating password encryption and modular code using CSV files.
 
