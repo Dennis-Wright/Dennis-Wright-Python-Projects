@@ -2,8 +2,11 @@
 
 A simple command-line file shredder I made to permanently delete files.  
 It overwrites the file a few times, renames it a bunch of times, and then deletes it.  
-Pretty much makes it hard to recover stuff, but still kinda basic.
+Pretty much makes it hard to recover stuff, but still kinda basic.  
 This was my first time experimenting with argparse instead of input.
+
+⚠ Note: This isn’t some super pro secure shredder, especially on SSDs — data might still be recoverable.
+I made this mostly to practice Python file I/O and messing around with binary files.
 
 ## ✨ Features
 
