@@ -9,7 +9,7 @@ Feel free to explore the folder structure to see how each project is organized.
 ## 2026/Current Projects[^1]
 [^1]: https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026
 1. [File Shredder](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026/The%20File%20Shredda)
-   A simple command line app that shreds files by overwriting them with random data, renaming and then deleting. Can also do directories. Open its Readme for more info.
+   A simple command line app that shreds files by overwriting them with random data, renaming and then deleting. Can also do directories. Open its Readme for more in-depth information.
 2. [Vault System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026/Vault%20System)
    This is a WIP project, more information will come in the coming days.
   
