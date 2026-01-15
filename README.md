@@ -9,7 +9,7 @@ Feel free to explore the folder structure to see how each project is organized.
 ## 2026/Current Projects[^1]
 [^1]: https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026
 1. [File Shredder App](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026/The%20File%20Shredda)
-   A simple app that shreds files by overwriting them with random data, renaming and then deleting.
+   A simple app that shreds files by overwriting them with random data, renaming and then deleting. Can also do directories. Open its Readme for more info.
 
   
 ## 2025 Projects[^2]
