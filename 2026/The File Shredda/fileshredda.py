@@ -7,17 +7,74 @@ import sys
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="File Shredder - by Dennis Wright")
-    parser.add_argument("-f", "--file", required=True, help="Path to the file to shred")
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-f", "--file", help="Path to the file to shred")
+    group.add_argument("-d", "--directory", help="Path to the directory to shred")
+
     parser.add_argument("-p", "--passes", type=int, default=3, help="Number of overwrite passes (default: 3)")
     parser.add_argument("--force", action="store_true", help="Skip confirmation prompt")
     return parser.parse_args()
 # End function
 
-def confirm_overwrite(file):
-    are_you_sure = input(f"You are about to permanently delete '{file}'. Continue? (y/n) ")
+def validate_path(path, expected_type):
+    if not os.path.exists(path):
+        print(f"Error: '{path}' does not exist.")
+        sys.exit(1)
+    
+    if expected_type == "file" and not os.path.isfile(path):
+        print(f"Error: '{path}' is not a valid file.")
+        sys.exit(1)
+    elif expected_type == "directory" and not os.path.isdir(path):
+        print(f"Error: '{path}' is not a valid directory.")
+        sys.exit(1)
+    
+    return path
+# End function
+
+def confirm_overwrite(path, expected_type):
+    if expected_type == "directory":
+        are_you_sure = input(f"You are about to permanently delete '{path}' and all files/subdirectories in it. Continue? (y/n) ")
+    elif expected_type == "file":
+        are_you_sure = input(f"You are about to permanently delete '{path}'. Continue? (y/n) ")
+    
     if are_you_sure.lower() != "y":
         print("\nOperation cancelled.")
         sys.exit(0)
+# End function
+
+## Below this line is the code for directory
+
+def overwrite_dir(path, passes):
+    for root, dirs, files in os.walk(path, topdown=False):
+        for name in files:
+            shred_file(os.path.join(root, name), passes)
+        
+        for name in dirs:
+            dir_path = os.path.join(root, name)
+            os.rmdir(dir_path)
+            fsync_dir(root)
+    
+    os.rmdir(path)
+    fsync_dir(os.path.dirname(path) or ".")
+# End function
+
+def fsync_dir(path):
+    if os.name == "posix":
+        try:
+            fd = os.open(path, os.O_DIRECTORY)
+            os.fsync(fd)
+            os.close(fd)
+        except OSError as e:
+            print(f"Warning: could not fsync directory '{path}': {e}")
+# End function
+
+## Below this line is the code for file
+
+def shred_file(path, passes):
+    overwrite_file_content(path, passes)
+    final_file = rename_file(path)
+    delete_file(final_file)
 # End function
 
 def overwrite_file_content(file, passes):
@@ -81,20 +138,37 @@ def delete_file(file):
     except OSError as e:
         print(f"Error deleting file: {e}")
         sys.exit(1)
+# End function
+
+
+
+
+
+## MAIN
+
 
 if __name__ == "__main__":
     args = parse_arguments()
 
-    if not os.path.isfile(args.file):
-        print(f"Error: File '{args.file}' does not exist.")
-        sys.exit(1)
+    if args.file:
+        path = args.file
+        expected_type = "file"
+    elif args.directory:
+        path = args.directory
+        expected_type = "directory"
 
-    if not args.force:
-        confirm_overwrite(args.file)
+    print(path, expected_type)
+
+    path = validate_path(path, expected_type)
 
     print("\n========== STARTING FILE SHREDDER ==========\n")
-    overwrite_file_content(args.file, args.passes)
-    final_file = rename_file(args.file)
-    delete_file(final_file)
+
+    if not args.force:
+        confirm_overwrite(path, expected_type)
+
+    if expected_type == "directory":
+        overwrite_dir(path, args.passes)
+    else:
+        shred_file(path, args.passes)
+
     print("\n========== FILE SHREDDING COMPLETE ==========")
-# End function
