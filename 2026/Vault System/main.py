@@ -1,4 +1,5 @@
 import os
+import auth
 
 def clear_screen():
     if os.name == "nt":
@@ -7,8 +8,22 @@ def clear_screen():
         os.system("clear")
 # End function
 
-def display_banner():
-    banner = r"""
+def get_width():
+    try:
+        width = os.get_terminal_size().columns
+    except OSError:
+        width = 80
+
+    return width
+# End function
+
+def get_padding(terminal_width, text):
+    left_padding = max((terminal_width - text) // 2, 0)
+
+    return left_padding
+
+def display_banner(terminal_width):
+    big_banner = r"""
 __/\\\________/\\\_____/\\\\\\\\\_____/\\\________/\\\__/\\\______________/\\\\\\\\\\\\\\\_______________/\\\\\\\\\\\____/\\\________/\\\_____/\\\\\\\\\\\____/\\\\\\\\\\\\\\\__/\\\\\\\\\\\\\\\__/\\\\____________/\\\\_        
  _\/\\\_______\/\\\___/\\\\\\\\\\\\\__\/\\\_______\/\\\_\/\\\_____________\///////\\\/////______________/\\\/////////\\\_\///\\\____/\\\/____/\\\/////////\\\_\///////\\\/////__\/\\\///////////__\/\\\\\\________/\\\\\\_       
   _\//\\\______/\\\___/\\\/////////\\\_\/\\\_______\/\\\_\/\\\___________________\/\\\__________________\//\\\______\///____\///\\\/\\\/_____\//\\\______\///________\/\\\_______\/\\\_____________\/\\\//\\\____/\\\//\\\_      
@@ -20,18 +35,90 @@ __/\\\________/\\\_____/\\\\\\\\\_____/\\\________/\\\__/\\\______________/\\\\\
         _______\///________\///________\///_____\/////////_____\///////////////________\///____________________\///////////___________\///__________\///////////___________\///________\///////////////__\///______________\///__                                                                                                                                                  
 """
 
-    print(banner)
+    small_banner = r"""
+ /$$    /$$  /$$$$$$  /$$   /$$ /$$    /$$$$$$$$        /$$$$$$  /$$     /$$ /$$$$$$  /$$$$$$$$ /$$$$$$$$ /$$      /$$
+| $$   | $$ /$$__  $$| $$  | $$| $$   |__  $$__/       /$$__  $$|  $$   /$$//$$__  $$|__  $$__/| $$_____/| $$$    /$$$
+| $$   | $$| $$  \ $$| $$  | $$| $$      | $$         | $$  \__/ \  $$ /$$/| $$  \__/   | $$   | $$      | $$$$  /$$$$
+|  $$ / $$/| $$$$$$$$| $$  | $$| $$      | $$         |  $$$$$$   \  $$$$/ |  $$$$$$    | $$   | $$$$$   | $$ $$/$$ $$
+ \  $$ $$/ | $$__  $$| $$  | $$| $$      | $$          \____  $$   \  $$/   \____  $$   | $$   | $$__/   | $$  $$$| $$
+  \  $$$/  | $$  | $$| $$  | $$| $$      | $$          /$$  \ $$    | $$    /$$  \ $$   | $$   | $$      | $$\  $ | $$
+   \  $/   | $$  | $$|  $$$$$$/| $$$$$$$$| $$         |  $$$$$$/    | $$   |  $$$$$$/   | $$   | $$$$$$$$| $$ \/  | $$
+    \_/    |__/  |__/ \______/ |________/|__/          \______/     |__/    \______/    |__/   |________/|__/     |__/                                                                                                                 
+"""
+    
+    if terminal_width >= 225:
+        banner_to_print = big_banner
+    else:
+        banner_to_print = small_banner
+    
+    for line in banner_to_print.splitlines():
+        stripped_line = line.rstrip()
+        if not stripped_line:
+            print()
+            continue
+
+        visible_len = len(stripped_line)
+
+        left_padding = get_padding(terminal_width, visible_len)
+
+        print(" " * left_padding + stripped_line)
 # End function
 
+def display_options(terminal_width):
+    top_bottom = "=" * terminal_width
 
-# This is to be changed to look better, just a placeholder atm for testing.
-def display_options():
-    print("             [1] Login")
-    print("             [2] Register")
-    print("             [3] Exit")
+    option_1 = "[ 1 ]  LOGIN"
+    option_2 = "[ 2 ]  REGISTER"
+    option_3 = "[ 3 ]  EXIT"
+
+    # Calculate spacing
+    total_text_length = len(option_1) + len(option_2) + len(option_3)
+    space_between = (width - total_text_length) // 4
+
+    line = (
+        " " * space_between +
+        option_1 +
+        " " * space_between +
+        option_2 +
+        " " * space_between +
+        option_3 +
+        " " * space_between
+    )
+
+    print()
+    print(top_bottom)
+    print(line)
+    print(top_bottom)
+# End function
+
+def get_input(terminal_width):
+    prompt_text = "ENTER OPTION: "
+    
+    left_padding = get_padding(terminal_width, len(prompt_text))-1
+
+    try:
+        user_input = int(input(" " * left_padding + prompt_text))
+    except:
+        print("Error. Invalid input.")
+        raise SystemExit(1)
+
+    if user_input == 1:
+        auth.login()
+    elif user_input == 2:
+        auth.register()
+    elif user_input == 3:
+        left_padding = get_padding(terminal_width, len("Exiting Program"))
+        print()
+        print(" " * left_padding + "Exiting Program")
+        raise SystemExit(0)
+    else:
+        print("\nInvalid option.\n")
+        return get_input(terminal_width)
 # End function
 
 if __name__ == "__main__":
     clear_screen()
-    display_banner()
-    display_options()
+    width = get_width()
+    display_banner(width)
+    display_options(width)
+    get_input(width)
