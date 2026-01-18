@@ -15,14 +15,6 @@ def get_padding(terminal_width, text):
     return left_padding
 # End function
 
-
-def clear_screen():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
-# End function
-
 def clear_screen():
     if os.name == "nt":
         os.system("cls")
