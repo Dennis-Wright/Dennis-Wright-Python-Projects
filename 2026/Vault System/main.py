@@ -107,7 +107,7 @@ def get_input(terminal_width):
     elif user_input == 2:
         auth.register()
     elif user_input == 3:
-        left_padding = get_padding(terminal_width, len("Exiting Program"))
+        left_padding = get_padding(terminal_width, len("Exiting Program"))-1
         print()
         print(" " * left_padding + "Exiting Program")
         raise SystemExit(0)
