@@ -13,3 +13,4 @@ def get_padding(terminal_width, text):
     left_padding = max((terminal_width - text) // 2, 0)
 
     return left_padding
+# End function
