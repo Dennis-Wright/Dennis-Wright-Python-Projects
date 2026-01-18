@@ -1,5 +1,6 @@
 import os
 import auth
+import utils
 
 def clear_screen():
     if os.name == "nt":
@@ -7,20 +8,6 @@ def clear_screen():
     else:
         os.system("clear")
 # End function
-
-def get_width():
-    try:
-        width = os.get_terminal_size().columns
-    except OSError:
-        width = 80
-
-    return width
-# End function
-
-def get_padding(terminal_width, text):
-    left_padding = max((terminal_width - text) // 2, 0)
-
-    return left_padding
 
 def display_banner(terminal_width):
     big_banner = r"""
@@ -59,7 +46,7 @@ __/\\\________/\\\_____/\\\\\\\\\_____/\\\________/\\\__/\\\______________/\\\\\
 
         visible_len = len(stripped_line)
 
-        left_padding = get_padding(terminal_width, visible_len)
+        left_padding = utils.get_padding(terminal_width, visible_len)
 
         print(" " * left_padding + stripped_line)
 # End function
@@ -94,7 +81,7 @@ def display_options(terminal_width):
 def get_input(terminal_width):
     prompt_text = "ENTER OPTION: "
     
-    left_padding = get_padding(terminal_width, len(prompt_text))-1
+    left_padding = utils.get_padding(terminal_width, len(prompt_text))-1
 
     try:
         user_input = int(input(" " * left_padding + prompt_text))
@@ -107,7 +94,6 @@ def get_input(terminal_width):
     elif user_input == 2:
         auth.register()
     elif user_input == 3:
-        left_padding = get_padding(terminal_width, len("Exiting Program"))-1
         print()
         print(" " * left_padding + "Exiting Program")
         raise SystemExit(0)
@@ -118,7 +104,7 @@ def get_input(terminal_width):
 
 if __name__ == "__main__":
     clear_screen()
-    width = get_width()
+    width = utils.get_width()
     display_banner(width)
     display_options(width)
     get_input(width)
