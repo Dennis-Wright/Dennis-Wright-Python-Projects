@@ -69,11 +69,11 @@ __/\\\________/\\\_____/\\\\\\\\\_____/\\\________/\\\__/\\\______________/\\\\\
         print(" " * left_padding + stripped_line)
 # End function
 
-def configure_logging():
+def configure_logging(log_file="logs/activity.log"):
+    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+
     logging.basicConfig(
-        filename="logs/activity.log",
+        filename=log_file,
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
-
-    return
