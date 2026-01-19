@@ -1,6 +1,7 @@
 import os
 import auth
 import utils
+import logging
 
 def display_options(terminal_width):
     top_bottom = "=" * terminal_width
@@ -29,10 +30,10 @@ def display_options(terminal_width):
     print(top_bottom)
 # End function
 
-def get_input(terminal_width):
+def get_input():
     prompt_text = "ENTER OPTION: "
     
-    left_padding = utils.get_padding(terminal_width, len(prompt_text))-1
+    left_padding = utils.get_padding(len(prompt_text))-1
 
     try:
         user_input = int(input(" " * left_padding + prompt_text))
@@ -41,21 +42,26 @@ def get_input(terminal_width):
         raise SystemExit(1)
 
     if user_input == 1:
+        logging.info("Input Recieved: Login")
         auth.start("login")
     elif user_input == 2:
+        logging.info("Input Recieved: Register")
         auth.start("register")
     elif user_input == 3:
+        logging.info("Input Recieved: Program Exit")
         print()
         print(" " * left_padding + "Exiting Program")
         raise SystemExit(0)
     else:
+        logging.warning(f"Invalid Input Recieved in Main Menu")
         print("\nInvalid option.\n")
-        return get_input(terminal_width)
+        return get_input()
 # End function
 
 if __name__ == "__main__":
     utils.clear_screen()
+    utils.configure_logging()
     width = utils.get_width()
     utils.display_banner()
     display_options(width)
-    get_input(width)
+    get_input()
