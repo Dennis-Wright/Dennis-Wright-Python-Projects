@@ -52,7 +52,7 @@ def get_input(username):
         user_input = int(input(" " * left_padding + prompt_text))
     except:
         print("Error. Invalid input.")
-        raise SystemExit(1)
+        get_input()
 
     if user_input == 1:
         logging.info("Vault.py - Input Recieved: ViewAll")
@@ -65,6 +65,7 @@ def get_input(username):
         delete_file(username)
     elif user_input == 4:
         logging.info("Vault.py - Input Recieved: Download")
+        download_file(username)
     elif user_input == 5:
         logging.info("Vault.py - Input Recieved: Program Exit")
         print()
@@ -80,11 +81,11 @@ def view_all_files(username, source):
     display_text = f"YOUR FILES:"
     display_padding = utils.get_padding(len(display_text))
     print("\n" + " " * display_padding + display_text)
-    for root, dirs, files in os.walk(f"data/vaults/{username}", topdown=False):
-        logging.info(f"Vault.py - Displaying all files in vault for user '{username}'")
-        for filename in files:
-            filename_padding = utils.get_padding(len(filename))
-            print(" " * filename_padding + filename)
+    files = os.listdir(f"data/vaults/{username}/")
+    logging.info(f"Vault.py - Displaying all files in vault for user '{username}'")
+    for filename in files:
+        filename_padding = utils.get_padding(len(filename))
+        print(" " * filename_padding + filename)
 
     if source == "input":
         another_service(username)
@@ -106,9 +107,14 @@ def upload_file(username):
     
     if not os.path.exists(file_path):
         print("Error. Enter a valid file path.")
-        another_service(username)
+        return another_service(username)
     
     file_name = os.path.basename(file_path)
+
+    if os.path.exists(f"data/vaults/{username}/{file_name}"):
+        print("Error. File already in vault.")
+        return another_service(username)
+
 
     try:
         shutil.copy(file_path, f"data/vaults/{username}/")
@@ -143,7 +149,7 @@ def delete_file(username):
     
     if not os.path.exists(f"data/vaults/{username}/{file_name}"):
         print("Error. Enter a valid file.")
-        another_service(username)
+        return another_service(username)
 
     try:
         os.remove(f"data/vaults/{username}/{file_name}")
@@ -160,6 +166,59 @@ def delete_file(username):
     another_service(username)
 # End function
     
+def download_file(username):
+    view_all_files(username, "download")
+
+    download_text = "Enter the name of the file you would like to download to your system."
+    download_text_padding = utils.get_padding(len(download_text))
+    print("\n" + " " * download_text_padding + download_text)
+
+    arrow = "> "
+    arrow_spacing = 9
+    arrow_padding = utils.get_padding(len(arrow))-arrow_spacing
+    file_name = str(input(" " * arrow_padding + arrow))
+
+    while not file_name:
+        print("Error. You must enter a file.")
+        file_name = str(input(" " * arrow_padding + arrow))
+    
+    if not os.path.exists(f"data/vaults/{username}/{file_name}"):
+        print("Error. Enter a valid file.")
+        return another_service(username)
+
+    download_directory = "Enter the path of the directory you would like to download the file to"
+    download_directory_padding = utils.get_padding(len(download_directory))
+    print("\n" + " " * download_directory_padding + download_directory)
+
+    arrow = "> "
+    arrow_spacing = 20
+    arrow_padding = utils.get_padding(len(arrow))-arrow_spacing
+    directory_name = str(input(" " * arrow_padding + arrow))
+
+    while not directory_name:
+        print("Error. You must enter a download directory.")
+        directory_name = str(input(" " * arrow_padding + arrow))
+
+    if not os.path.isdir(directory_name):
+        print("Error. Enter a valid directory.")
+        return another_service(username)
+
+
+    try:
+        shutil.copy(f"data/vaults/{username}/{file_name}", directory_name)
+        logging.info(f"Vault.py - {file_name} copied from data/vaults/{username}/{file_name} to {directory_name}")
+    except:
+        print(f"Error. Could not copy {file_name}")
+        logging.error(f"Vault.py - Could not copy file {file_name} for user '{username}'")
+    
+    if os.path.exists(f"{directory_name}/{file_name}"):
+        text = f"{file_name} downloaded successfully."
+        text_padding = utils.get_padding(len(text))
+        print("\n" + " " * text_padding + text)
+
+    another_service(username)
+# End function
+
 def another_service(username):
     text = "Would you like to use another service? (y/n): "
     text_padding = utils.get_padding(len(text))
