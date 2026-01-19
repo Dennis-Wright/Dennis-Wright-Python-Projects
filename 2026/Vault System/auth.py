@@ -177,7 +177,6 @@ def create_user_vault(username):
 def start(function):
     utils.clear_screen()
     utils.display_banner()
-    utils.configure_logging()
 
     user_details = load_details()
 
