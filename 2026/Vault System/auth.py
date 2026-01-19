@@ -8,8 +8,8 @@ def load_details():
 
     with open('data/users.json', 'r') as user_logins:
         try:
-            logging.info("User json loaded successfully.")
             logins = json.load(user_logins)
+            logging.info("User json loaded successfully.")
         except (json.JSONDecodeError, FileNotFoundError):
             logging.error("User json loading failed.")
             logins = []
