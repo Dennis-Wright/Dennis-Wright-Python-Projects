@@ -2,8 +2,6 @@
 
 A modular command-line file vault application that allows users to securely register, log in, and manage personal files in an isolated vault. The system uses hashed passwords (`bcrypt`) and file operations to upload, view, delete, and download files — all stored locally per user.
 
----
-
 ## ✨ Features
 
 ### 🔐 Authentication
