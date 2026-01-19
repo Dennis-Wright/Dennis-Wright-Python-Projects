@@ -1,4 +1,5 @@
 import os
+import logging
 
 def get_width():
     try:
@@ -9,7 +10,9 @@ def get_width():
     return width
 # End function
 
-def get_padding(terminal_width, text):
+def get_padding(text):
+    terminal_width = get_width()
+
     left_padding = max((terminal_width - text) // 2, 0)
 
     return left_padding
@@ -61,7 +64,16 @@ __/\\\________/\\\_____/\\\\\\\\\_____/\\\________/\\\__/\\\______________/\\\\\
 
         visible_len = len(stripped_line)
 
-        left_padding = get_padding(terminal_width, visible_len)
+        left_padding = get_padding(visible_len)
 
         print(" " * left_padding + stripped_line)
 # End function
+
+def configure_logging():
+    logging.basicConfig(
+        filename="logs/activity.log",
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
+
+    return
