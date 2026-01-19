@@ -2,6 +2,7 @@ import bcrypt
 import utils
 import json
 import logging
+import os
 
 def load_details():
     user_details = {}
@@ -9,9 +10,9 @@ def load_details():
     with open('data/users.json', 'r') as user_logins:
         try:
             logins = json.load(user_logins)
-            logging.info("User json loaded successfully.")
+            logging.info("auth.py - User json loaded successfully.")
         except (json.JSONDecodeError, FileNotFoundError):
-            logging.error("User json loading failed.")
+            logging.error("auth.py - User json loading failed.")
             logins = []
 
     for user in logins:
@@ -66,13 +67,13 @@ def login(user_details):
             continue 
 
         if bcrypt.checkpw(password_input.encode("utf-8"), user_details[username_input].encode("utf-8")):
-            logging.info(f"Successful login attempt for user '{username_input}'")
+            logging.info(f"auth.py - Successful login attempt for user '{username_input}'")
             correct_text = "CORRECT. LOGGING IN..."
             correct_padding = utils.get_padding(len(correct_text))
             print("\n" + " " * correct_padding + correct_text)
             logged_in = True
         else:
-            logging.warning(f"Failed login attempt for user '{username_input}'")
+            logging.warning(f"auth.py - Failed login attempt for user '{username_input}'")
             print("Error: Invalid Username or Password.")
             logged_in = False
             continue
@@ -114,7 +115,7 @@ def register(user_details):
             continue
 
         if username_input in user_details:
-            logging.warning(f"Registration failed as user '{username_input}' already exists.")
+            logging.warning(f"auth.py - Registration failed as user '{username_input}' already exists.")
             print("Error: Username already exists.")
             continue 
 
@@ -145,9 +146,10 @@ def register(user_details):
         hashed_password = bcrypt.hashpw(pswd, bcrypt.gensalt())
 
         # If username not existing and valid password, write to array which will push to json file
-        logging.info(f"User '{username_input}' registered successfully.")
+        logging.info(f"auth.py - User '{username_input}' registered successfully.")
         print(f"\nUser '{username_input}' registered successfully!")
         write_to_json(username_input, hashed_password, user_details)
+        create_user_vault(username_input)
         logged_in = True
         break
     # End while
@@ -162,6 +164,16 @@ def write_to_json(username, password, user_details):
         json.dump(users_list, file, indent=4)
 # End function
 
+def create_user_vault(username):
+    try:
+        os.mkdir(f"data/vaults/{username}")
+        logging.info(f"auth.py - Created a vault for {username}, path: 'data/vaults/{username}'")
+    except:
+        print("Error creating user vault.")
+        logging.error(f"auth.py - Error creating vault for {username}")
+        raise SystemExit(1)
+# End function
+
 def start(function):
     utils.clear_screen()
     utils.display_banner()
@@ -173,4 +185,6 @@ def start(function):
         logged_in, username = login(user_details)
     else:
         logged_in, username = register(user_details)
+
+    return logged_in, username
 # End function
