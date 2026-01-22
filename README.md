@@ -29,6 +29,9 @@ Feel free to explore the folder structure to see how each project is organized.
    A command line app that stores your files in a vault for each user.  
    Features include login system, uploading, deletion, and copying files. See README for details.
 
+3. 🟡 [GUI Vault System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026/GUI%20Vault%20System)  
+   WIP version of the vault system, using Tkinter for GUI.
+   
 ---
 
 ## 2025 Projects[^2]
