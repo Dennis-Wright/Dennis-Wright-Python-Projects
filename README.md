@@ -11,7 +11,7 @@ Feel free to explore the folder structure to see how each project is organized.
 1. [File Shredder](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026/The%20File%20Shredda)
    A simple command line app that shreds files by overwriting them with random data, renaming and then deleting. Can also do directories. Open its Readme for more in-depth information.
 2. [Vault System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026/Vault%20System)
-   This is a WIP project, more information will come in the coming days.
+   A simple command line app that stores your files in a vault for each user. Includes a login system, nice CLI layout, and uploading, deletion and copying files. Check the Readme!!
   
 ## 2025 Projects[^2]
 [^2]: https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025
