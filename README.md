@@ -23,3 +23,8 @@ Feel free to explore the folder structure to see how each project is organized.
 
 3. [Library System](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2025/Library%20System)
    A library management system with user login, book borrowing/returning, and search features, all using CSV for storage.
+
+## Failed/Unfinished Projects [^3]
+[^3]: https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/Failed%20or%20Unfinished
+1. [GUI Calculator](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/Failed%20or%20Unfinished/GUI%20Calculator)
+   Basic GUI Calculator using TKinter. Haven't tested, just didn't wan't to pursue the project further. Main functions (Addition/Subtraction/Multiplication/Divison) works with basic bodmas.
