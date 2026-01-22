@@ -7,16 +7,9 @@ This folder contains Python projects that I either didn’t finish or wasn’t f
 Feel free to explore the folder to see how I experimented with different ideas and GUI layouts.  
 
 ## Current Projects
-1. [GUI Calculator](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/Failed%20Projects%20or%20Not%20Happy%20With%20Result/GUI%20Calculator)  
+1. [GUI Calculator](https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/Failed%20or%20Unfinished/GUI%20Calculator) 
    A basic calculator with a graphical interface. Functional but incomplete — some features and error handling are missing, and the UI layout could be improved.  
 
+      
+
 > **Note:** These projects are works-in-progress or experiments. I may revisit them in the future to improve features, code quality, or user interface.
-
-
-    GUI Calculator
-
-    A basic calculator with a graphical interface. Functional but incomplete — some features and error handling are missing, and the UI layout could be improved.
-
-You could also add a note at the bottom if you plan to revisit or refactor these projects later:
-
-    Note: These projects are works-in-progress or experiments. I may revisit them in the future to improve features, code quality, or user interface.
