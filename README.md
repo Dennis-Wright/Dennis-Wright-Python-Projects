@@ -3,11 +3,9 @@
 Welcome!  
 
 This repository contains a collection of Python projects I’ve created out of curiosity and for practice.  
-They’re mostly simple, modular programs showcasing different programming concepts, including file handling, user authentication, and basic logic.  
+They’re mostly simple, modular programs showcasing different programming concepts, including file handling, user authentication, and basic logic. 
 
 Feel free to explore the folder structure to see how each project is organized.  
-
----
 
 # KEY:
 🟢 - Complete Project  
@@ -15,6 +13,8 @@ Feel free to explore the folder structure to see how each project is organized.
 🔴 - Abandoned Project  
 
 ---
+
+> **Note:** Projects are listed in chronological order. Number 1 is the earliest project in the year, and as you go down the list, the projects are further along in the year.
 
 ## 2026 / Current Projects[^1]
 [^1]: https://github.com/Dennis-Wright/Dennis-Wright-Python-Projects/tree/main/2026
