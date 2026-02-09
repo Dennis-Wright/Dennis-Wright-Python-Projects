@@ -21,7 +21,8 @@ I made this mostly to practice Python file I/O, directory traversal, and messing
 ### 🖥️ Command Line Options
 - `-f, --file` → The file you want to delete  
 - `-d, --directory` → The directory you want to delete (all files inside will also be shredded)  
-- `-p, --passes` → How many times to overwrite (default 3, can be higher but not really worth it)  
+- `-p, --passes` → How many times to overwrite (default 3, can be higher but not really worth it)
+- `--skipverif` → Skips the comparison of hashes to check file contents
 - `--force` → Skip the “are you sure?” confirmation prompt  
 
 ### 📢 Feedback
@@ -33,9 +34,11 @@ I made this mostly to practice Python file I/O, directory traversal, and messing
 ## 🧩 How the program works
 - `parse_arguments()` → Gets the stuff you type in the command line  
 - `validate_path()` → Checks that the file/directory exists and is valid  
-- `confirm_overwrite()` → Asks if you really want to delete the target  
+- `confirm_overwrite()` → Asks if you really want to delete the target
+- `hash_file()` → Helper function to hash file for comparing contents
 - `overwrite_file_content()` → Overwrites file contents + truncates them  
-- `rename_file()` → Renames files randomly multiple times  
+- `rename_file()` → Renames files randomly multiple times
+- `verify_edits()` → Compares hashes of original and edited file to make sure its altered
 - `delete_file()` → Deletes the file  
 - `shred_file()` → Wraps file overwrite + rename + delete (used by directories too)  
 - `overwrite_dir()` → Traverses directories bottom-up, shredding all files and removing subfolders  
