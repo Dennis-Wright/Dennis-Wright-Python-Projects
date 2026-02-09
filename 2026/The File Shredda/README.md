@@ -36,7 +36,8 @@ I made this mostly to practice Python file I/O, directory traversal, and messing
 - `validate_path()` → Checks that the file/directory exists and is valid  
 - `confirm_overwrite()` → Asks if you really want to delete the target
 - `hash_file()` → Helper function to hash file for comparing contents
-- `overwrite_file_content()` → Overwrites file contents + truncates them  
+- `overwrite_file_content()` → Overwrites file contents
+- `truncate_file()` → Self explanatory I hope, truncates file.
 - `rename_file()` → Renames files randomly multiple times
 - `verify_edits()` → Compares hashes of original and edited file to make sure its altered
 - `delete_file()` → Deletes the file  
