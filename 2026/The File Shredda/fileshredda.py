@@ -76,18 +76,29 @@ def fsync_dir(path):
 
 def shred_file(path, passes):
     original_hash = hash_file(path)
+
+    skip_verif = False
+
+    if args.skipverif or os.path.getsize(path) == 0:
+        skip_verif = True
+
     overwrite_file_content(path, passes)
+
     final_file = rename_file(path)
-    if not args.skipverif:
+
+    if not skip_verif:
         verify_edits(final_file, original_hash)
+
+    truncate_file(final_file)
+
     delete_file(final_file)
 # End function
 
 def hash_file(path, algo="sha256", chunk_size=8192):
-    file_hash = hashlib.new("sha256")
+    file_hash = hashlib.new(algo)
     try:
         with open(path, "rb") as file:
-            for chunk in iter(lambda: file.read(8192), b""):
+            for chunk in iter(lambda: file.read(chunk_size), b""):
                 file_hash.update(chunk)
     except OSError as e:
         print(f"Error hashing file: {e}")
@@ -117,7 +128,9 @@ def overwrite_file_content(file, passes):
     except OSError as e:
         print(f"Error overwriting file: {e}")
         sys.exit(1)
+# End function
 
+def truncate_file(file):
     try:
         with open(file, "r+b") as binary_file:
             binary_file.truncate(0)
@@ -127,7 +140,7 @@ def overwrite_file_content(file, passes):
     except OSError as e:
         print(f"Error truncating file: {e}")
         sys.exit(1)
-# End function
+# End Function
 
 def rename_file(file):
     number_of_renames = random.randint(10, 20)
