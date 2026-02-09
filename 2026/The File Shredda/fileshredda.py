@@ -4,6 +4,7 @@ import string
 import random
 import argparse
 import sys
+import hashlib
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="File Shredder - by Dennis Wright")
@@ -13,6 +14,7 @@ def parse_arguments():
     group.add_argument("-d", "--directory", help="Path to the directory to shred")
 
     parser.add_argument("-p", "--passes", type=int, default=3, help="Number of overwrite passes (default: 3)")
+    parser.add_argument("--skipverif", action="store_true", help="Skip hashing to confirm altered data.")
     parser.add_argument("--force", action="store_true", help="Skip confirmation prompt")
     return parser.parse_args()
 # End function
@@ -69,13 +71,29 @@ def fsync_dir(path):
             print(f"Warning: could not fsync directory '{path}': {e}")
 # End function
 
+
 ## Below this line is the code for file
 
 def shred_file(path, passes):
+    original_hash = hash_file(path)
     overwrite_file_content(path, passes)
     final_file = rename_file(path)
+    if not args.skipverif:
+        verify_edits(final_file, original_hash)
     delete_file(final_file)
 # End function
+
+def hash_file(path, algo="sha256", chunk_size=8192):
+    file_hash = hashlib.new("sha256")
+    try:
+        with open(path, "rb") as file:
+            for chunk in iter(lambda: file.read(8192), b""):
+                file_hash.update(chunk)
+    except OSError as e:
+        print(f"Error hashing file: {e}")
+        sys.exit(1)
+
+    return file_hash.hexdigest()
 
 def overwrite_file_content(file, passes):
     file_size_in_bytes = os.path.getsize(file)
@@ -131,6 +149,17 @@ def rename_file(file):
     return current_name
 # End function
 
+def verify_edits(new_path, file_hash):
+    new_hash = hash_file(new_path)
+
+    if file_hash != new_hash:
+        print("Successfully altered file data.")
+        pass
+    else:
+        print("Error shredding file.")
+        sys.exit(1)
+# End function
+
 def delete_file(file):
     try:
         os.remove(file)
@@ -139,9 +168,6 @@ def delete_file(file):
         print(f"Error deleting file: {e}")
         sys.exit(1)
 # End function
-
-
-
 
 
 ## MAIN
